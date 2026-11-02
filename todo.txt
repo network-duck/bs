@@ -1,3 +1,4 @@
+#Altoid0
 Our main remote execution wrapper script would have taken care of running each of our standalone hardening scripts across the domain in the following order:
     Inventory.ps1 - Collects information from each host such as users, startups, software, shares, and IIS site bindings.
     Fix.ps1 - Resolve any QOL issues like crazy fonts, hidden folders, non-English keyboards, and GPO roadblocks.
@@ -7,6 +8,7 @@ Our main remote execution wrapper script would have taken care of running each o
     Users.ps1 - Creates a new admin account and changes all passwords to something random.
     Hard.ps1 - Implements pass-the-hash mitigations, configures Windows defender and its extended capabilities, and sets up some fun tricks for red team to scratch their heads at.
 
+#Hivestorm 2020:
 Adding valid/README users
 Removing invalid/hidden/evil users
 Changing passwords
@@ -54,3 +56,56 @@ Ignore broadcast ICMP echo request enabled
 IPv4 accept ICMP redirects disabled
 service has been disabled or removed
 PHP does not display errors
+
+#Hivestorm 2021
+Adding valid/README users
+Removing invalid/hidden/evil users
+Changing passwords, ensuring passwords are 'secure'
+Ensuring user policies are set to reasonable values
+Removing backdoors and persistence mechanisms
+Misc fixes (permissions, SUID, other stuff)
+User has a maximum password age
+Password for is hashed with a secure algorithm - Make sure to change your users' passwords after requiring a different hashing algorithm.
+A minimum password length is required
+Extra dictionary based password strength checks enabled
+IPv4 TIME-WAIT assassination protection enabled
+Logging of martian packets enabled
+Restricted unprivileged access to kernel syslog enabled
+Firewall protection has been enabled
+GRUB configuration is not world readable
+Insecure permissions on PostgreSQL configuration files fixed
+Run a privesc script (like LinPEAs), since it's an easy way to find important world writable and SUID/SGID files, and thus saves you from running two find commands.
+Update
+Prohibited software fcrackzip
+Removed netcat backdoor
+Removed python backdoor
+check crontab, and ps auxf for any funky binaries that take -lvnp 4444 -e /bin/bash as arguments.
+PostgreSQL requires authentication for all connections
+PostgreSQL does not map any user to the postgres account
+enable SSL connections to postgres - maybe was readme
+Removed unauthorized admin
+Disabled shell login for user irc
+A default minimum password age is set
+Null passwords do not authenticate
+X Server does not allow TCP connections
+IPv4 TCP SYN cookies have been enabled
+Ignore broadcast ICMP echo requests enabled
+Uncomplicated Firewall (UFW) protection has been enabled
+Insecure permissions on shadow file fixed
+Insecure sudo configuration fixed
+IRC daemon has been disabled or removed
+APT has been updated
+Samba has been updated
+Firefox has been updated
+Prohibited MP3 files are removed
+Prohibited software dsniff removed
+Prohibited software rfdump removed
+Removed perl owl-shell backdoor
+Samba SMB1 protocol is disabled
+Samba encryption is required
+Do beware, if you take this mentality to CCDC or similar, you need to be extremely careful to not nuke something that looks "malicious," but is actually a scored component.
+A minimum password length is required - minimum password length in the PAM configuration
+Removed netcat backdoor - backdoor running as a service called nyan.service (/etc/systemd/system/nyan.service) – also as an executable /bin/nc/.
+Corrected insecure permissions on PostgreSQL configuration files
+An account lockout policy is configured
+Disabled password login for user bin
