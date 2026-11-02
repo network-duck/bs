@@ -7,3 +7,50 @@ Our main remote execution wrapper script would have taken care of running each o
     Users.ps1 - Creates a new admin account and changes all passwords to something random.
     Hard.ps1 - Implements pass-the-hash mitigations, configures Windows defender and its extended capabilities, and sets up some fun tricks for red team to scratch their heads at.
 
+Adding valid/README users
+Removing invalid/hidden/evil users
+Changing passwords
+Fixing groups
+PAM configurations
+fixing /etc/shadow perms
+removing a user shell for a system user
+sysctl.conf, login.defs, lightdm.conf
+apt isn't backdoored, apt sources are fixed, no package holds
+Enabled the firewall
+Installing good software
+Starting good services
+Removing bad software/features
+Stopping/removing bad services
+Check listening ports (ss -tulpn) and find / -perm -4000/2000 (SUID/SGID) for Linux
+Look up php hardening guide
+DoD STIGS
+CIS Benchmarks
+Removed unauthorized user
+Removed hidden user
+User is not an administrator
+A minimum password length is required
+Extra dictionary based password strength checks enabled
+Insecure permissions on shadow file fixed
+Firewall protection has been enabled
+IPv4 TCP SYN cookies have been enabled
+Ignore bogus ICMP errors enabled
+Logging of martian packets enabled
+###sysctl-explorer
+IRC daemon has been disabled or removed
+Minetest service has been disabled or removed
+apt update && apt full-upgrade. You need to also make sure your /etc/apt/sources.list and all the other lists and configs in /etc/apt are configured correctly
+check apt log remove stuff
+Firefox warns when sites try to install add-ons
+SSH root login has been disabled
+PHP does not display errors
+Apache server tokens set to least
+Apache trace requests disabled
+Disabled password login for user bin
+User has a minimum password age
+A default maximum password age is set
+An account lockout policy is configured
+Greeter does not enumerate user accounts
+Ignore broadcast ICMP echo request enabled
+IPv4 accept ICMP redirects disabled
+service has been disabled or removed
+PHP does not display errors
