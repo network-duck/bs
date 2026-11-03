@@ -109,3 +109,5 @@ Removed netcat backdoor - backdoor running as a service called nyan.service (/et
 Corrected insecure permissions on PostgreSQL configuration files
 An account lockout policy is configured
 Disabled password login for user bin
+
+GO BACK TO SECURING A LINUX SERVER GOAT POST
