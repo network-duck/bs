@@ -111,3 +111,9 @@ An account lockout policy is configured
 Disabled password login for user bin
 
 GO BACK TO SECURING A LINUX SERVER GOAT POST
+
+#ccdc nats in utsa
+database/webapp password changes, and root password 
+basic box securing (e.g., if php.ini, disable these functions, change shells to rbash, and so forth). The other Linux person worked on the database, and changing all creds related to it.
+backed them up
+change all shells to rbash, and export an empty path in the bashrc for non-root users
