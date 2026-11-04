@@ -117,3 +117,8 @@ database/webapp password changes, and root password
 basic box securing (e.g., if php.ini, disable these functions, change shells to rbash, and so forth). The other Linux person worked on the database, and changing all creds related to it.
 backed them up
 change all shells to rbash, and export an empty path in the bashrc for non-root users
+
+#gabe fok
+/etc/apt/sources.list
+/etc/login.defs, /etc/sudoers, /etc/pam.d/common-password, /etc/pam.d/common-auth, and /etc/ssh/sshd_config
+/var/www/html/wordpress/wp-config.php
