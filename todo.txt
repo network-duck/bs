@@ -122,3 +122,5 @@ change all shells to rbash, and export an empty path in the bashrc for non-root 
 /etc/apt/sources.list
 /etc/login.defs, /etc/sudoers, /etc/pam.d/common-password, /etc/pam.d/common-auth, and /etc/ssh/sshd_config
 /var/www/html/wordpress/wp-config.php
+
+must change user password on next login ???
