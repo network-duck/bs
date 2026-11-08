@@ -124,3 +124,11 @@ change all shells to rbash, and export an empty path in the bashrc for non-root 
 /var/www/html/wordpress/wp-config.php
 
 must change user password on next login ???
+
+#winterknight
+fail2ban
+Systemd services and which binaries have SUID or GUID applied to them
+kenel expolit
+permissions on your files
+sus processes\
+file integrity monitoring
