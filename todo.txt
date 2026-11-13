@@ -132,3 +132,5 @@ kenel expolit
 permissions on your files
 sus processes\
 file integrity monitoring
+/etc/fstab
+rc.local, systemd services, or crontabs for instance.
