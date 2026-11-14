@@ -136,3 +136,13 @@ file integrity monitoring
 rc.local, systemd services, or crontabs for instance.
 ###FIX Pwnkit - VERY IMPORTANT
 cockpit for mail server
+
+#howtowinccdc
+find /etc/ | xargs -I file lsattr -a file 2>/dev/null | grep '^....i'
+.bash_history
+~/.ssh/authorized_keys
+lsof -nPi / netstat -ano
+know where logs are
+diff process list
+fuser -k pts/2
+IPTSTATE?
