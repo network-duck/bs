@@ -146,3 +146,182 @@ know where logs are
 diff process list
 fuser -k pts/2
 IPTSTATE?
+
+systemctl mask services/timers cron
+ss -tulpn
+ps faux
+Check sudoers file (sudo visudo) and /etc/sudoers.d (remove #include)
+Check pam_exec, malicious pam rules
+chmod 0644 /etc/passwd /etc/passwd- /etc/group /etc/group- /etc/fstab
+chmod 0640 /etc/shadow /etc/shadow- /etc/gshadow /etc/gshadow-
+chown root:root /etc/fstab /etc/passwd /etc/shadow /etc/group /var/spool/cron
+also do grub
+exportfs
+sudo find / -xdev -user root \( -perm -4000 -o -perm -2000 \)
+
+System Configuration
+Secure /etc/pam.d/: (use auth sufficient)
+Install libpam-cracklib
+/etc/pam.d/common-auth (remove any nullok or other insecure configurations)
+pam_tally2.so audit silent deny=5 onerr=fail unlock_time=900
+
+/etc/pam.d/common-password
+pam_cracklib.so retry=3 minlen=14 maxrepeat=3 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1 difok=4
+pam_unix.so obscure use_authtok try_first_pass sha512 remember=10 minlen=14 rounds=65536
+
+find /etc/pam.d -type f -print0 | xargs -0 sed -i /pam_exec/d
+
+
+Secure /etc/login.defs
+PASS_MAX_DAYS 30
+PASS_MIN_DAY 5
+PASS_MIN_LEN 14
+Secure LightDM (/etc/lightdm/lightdm.conf)
+Disable guest account: allow-guest=false
+Hide user list: greeter-hide-users=true
+If GDM, look up hardening guide
+Secure /etc/sysctl.conf configuration
+Prevent IP spoofing: echo "nospoof on" | sudo tee -a /etc/host.conf
+Check /etc/hosts, /etc/hosts.allow and /etc/hosts.deny
+Set Firefox to warn when sites try to install add-ons, and other security options
+Software
+Remove "hacking tools" and programs that increase your vulnerability
+Hacking tools: hydra netcat john aircrack-ng nikto medusa nmap ophcrack dsniff cain kismet knocker p0f
+Games: Minetest openarena freeciv brainiac
+Services: cups isc-dhcp-server slapd nfs-server rpcbind bind9 vsftpd pure-ftpd apache2 nginx dovecot smbd squid snmpd tigervnc tightvnc vino-viewer named ircd-irc2 nis talk
+Upgrade the whole system: sudo apt full-upgrade && sudo apt autoremove
+Ensure that some packages aren't held
+dpkg --get-selections | grep "hold"; sudo apt-mark unhold <package>
+
+mysql
+/etc/mysql/my.cnf (or locate my.cnf)
+[mysqld]
+local-infile=0
+bind-address=127.0.0.1 # if standalone
+bind-address = 0.0.0.0 # then firewall, if multiple images
+skip-show-database # removes show databases command
+
+User Security (MySQL CLI)
+Change root password and don’t use root account. Delete bad users.
+Use mysql database: USE mysql
+Show users: SELECT host, user FROM user;
+Change password: alter user 'root'@'localhost' identified by 'newpass';
+Remove user: DROP USER 'username'@'host';
+FLUSH PRIVILEGES;
+Look up the Digital Ocean guide… Just keep your firewall blocking it and bind to 0.0.0.0.
+
+# Secure Installation
+sudo mysql_secure_installation
+# Connect to local server
+mysql -u username -p
+# List host/user combos
+SELECT user,host FROM mysql.user;
+# Change password (WARNING: This plaintext password will show up in ~/.mysql_history)
+SET PASSWORD FOR ‘user’@’host’ = PASSWORD(‘password’);
+# Create user (WARNING: This plaintext password will show up in ~/.mysql_history)
+CREATE USER ‘user’@’host’ IDENTIFIED BY ‘password’;
+# View privileges of a user
+SHOW GRANTS FOR ‘user’@’host’;
+# Grant Privileges
+GRANT ALL ON db_name.* TO ‘user’@’host’;
+GRANT CREATE,SELECT,INSERT,UPDATE,DELETE ON db_name.* to ‘user’@’host’;
+# Revoke Privileges
+REVOKE ALL, GRANT OPTION FROM ‘user’@’host’;
+REVOKE DROP,DELETE ON db_name.* FROM ‘user’@’host’;
+#Drop user
+DROP USER &#39;user&#39;@&#39;host&#39;;
+# Emergency Access (Be careful, this disables passwords)
+/etc/init.d/mysql stop
+mysqld --skip-grant-tables &amp;
+/etc/init.d/mysql restart
+# Backup databases
+Dump entire database: mysqldump -u username -p -A &gt; backup.sql
+Dump single database: mysqldump -u username -p -B db_name &gt; db_name.sql
+# Restore databases
+mysql -u username -p &lt; backup.sql
+
+Installing:
+● Server: apt-get install postgresql
+● Client: apt-get install postgresql-client-common
+pg_hba.conf: (In postgres’s home directory)
+● Restrictions on client IP’s
+● &lt;|conn_type|&gt; &lt;|database(s)|&gt; &lt;|user(s)|&gt; &lt;|network|&gt; &lt;|auth_method|&gt;
+● conn_type
+○ local: Unix socket connections
+○ host: Network connections
+● database(s)
+○ db1,db2,db3
+○ all
+● user(s)
+○ user1,user2,user3
+○ all
+● network
+○ network/cidr
+○ &lt;blank&gt; # For Unix sockets
+● auth_method
+○ peer - check that the system username matches the postgresql username
+○ md5 - MD5 hashed password
+○ trust - Allow login w/o password
+○ reject - Reject all connections
+
+psql:
+● Authentication
+○ By default, users connecting via Unix sockets are authenticated by
+checking that the system user is the same as the database user.
+○ If connecting via the network, a password is required
+● Superuser: postgres
+○ postgres is the superuser, and by default cannot be logged in as via
+the network
+■ su postgres
+
+● psql
+○ psql [-U &lt;|username|&gt;] [-h &lt;|ip_addr|&gt;] [-d &lt;|dbname|&gt;]
+○ By default -U is set to the current system username
+○ By default -d is set to the given username
+○ Additional options:
+■ Execute the given command: -c “&lt;|cmd|&gt;”
+■ Execute commands from the given file: -f &lt;|file|&gt;
+
+● Commands
+
+○ Informational Commands
+■ Command help: \?
+■ Exit: \q
+■ List databases: \l # Lowercase L
+■ Select a database: \c &lt;|db_name|&gt;
+■ Show tables: \dt
+■ Show roles: \du
+■ Show privileges: \dp
+○ View roles and passwords. (postgresql uses roles instead of users)
+\c template1
+SELECT * FROM pg_shadow;
+○ User management
+■ Create user: CREATE USER &lt;|user|&gt; WITH PASSWORD
+‘&lt;|password|&gt;’;
+■ Change pass: ALTER USER &lt;|user|&gt; WITH PASSWORD
+‘&lt;|new_password|&gt;’;
+■ Delete user: DROP USER &lt;|user|&gt;;
+○ Privileges
+■ Show privileges: \dp (per database)
+■ Grant privileges (\c to the database)
+■ Table: GRANT &lt;|privilege|&gt; ON &lt;|table|&gt; TO &lt;|user|&gt;;
+■ Database: GRANT ALL ON ALL TABLES IN SCHEMA
+PUBLIC TO &lt;|user|&gt;;
+■ Revoke privileges
+■ Table: REVOKE &lt;|privilege|&gt; ON &lt;|table|&gt; FROM &lt;|user|&gt;;
+■ Database: REVOKE ALL ON ALL TABLES IN SCHEMA
+PUBLIC FROM &lt;|user|&gt;;
+
+■ There is also the PUBLIC role which is granted to all users
+● Identifiable in \dp as ‘=&lt;|perms|&gt;’ (i.e. no username)
+
+● Backup and Restore
+○ Dump all: pg_dumpall &gt; backup.pgsql
+○ Dump single db: pg_dump &lt;|db_name|&gt; &gt; &lt;|db_name|&gt;.pgsql
+○ Restore: psql -f backup.pgsql
+
+doveadm auth test user
+postalias -q &lt;user&gt;@&lt;domain&gt; mysql:/etc/postfix/mysql-vam.cf - check aliases
+postmap -q &lt;domain&gt; mysql:/etc/postfix/mysql-vmd.cf - check virtual domains
+postmap -q &lt;username&gt; mysql:/etc/postfix/mysql-vmm.cf - check users
+^^^Should get 1 for all except for postalias
