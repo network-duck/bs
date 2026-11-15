@@ -7,3 +7,6 @@ gpg -c http_backup.tar.gz
 It will prompt you for a password
 rm -f http_backup.tar.gz
 rm -rf http_backup
+
+# Save kernel modules to a dated file
+lsmod > kernel_modules_$(date | tr " " "_")
