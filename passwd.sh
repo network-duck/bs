@@ -24,3 +24,7 @@ done
 # Now, we have changed all user passwords on the system. We should now go through and lock all non-user accounts.
 for u in $(cat /etc/passwd | grep -vE "/bin/.*sh" | cut -d":" -f1); do passwd -l $u; done
 passwd -l root
+
+for u in $(cat /etc/passwd | grep -E "/bin/.*sh" | grep -v "root" | grep -v "admin" | cut -d":" -f1); do
+    usermod -s /bin/rbash "$u"
+done
