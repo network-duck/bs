@@ -2,7 +2,7 @@ root:x:0:
 daemon:x:1:
 bin:x:2:
 sys:x:3:
-adm:x:4:syslog,ccdcuser
+adm:x:4:syslog,admin
 tty:x:5:
 disk:x:6:
 lp:x:7:
@@ -15,12 +15,12 @@ kmem:x:15:
 dialout:x:20:
 fax:x:21:
 voice:x:22:
-cdrom:x:24:ccdcuser
+cdrom:x:24:admin
 floppy:x:25:
 tape:x:26:
-sudo:x:27:ccdcuser
+sudo:x:27:admin
 audio:x:29:pulse
-dip:x:30:ccdcuser
+dip:x:30:admin
 www-data:x:33:
 backup:x:34:
 operator:x:37:
@@ -32,7 +32,7 @@ shadow:x:42:
 utmp:x:43:
 video:x:44:
 sasl:x:45:
-plugdev:x:46:ccdcuser
+plugdev:x:46:admin
 staff:x:50:
 games:x:60:
 users:x:100:
@@ -44,8 +44,8 @@ syslog:x:104:
 fuse:x:105:
 messagebus:x:106:
 ssl-cert:x:107:
-lpadmin:x:108:ccdcuser
-scanner:x:109:ccdcuser
+lpadmin:x:108:admin
+scanner:x:109:admin
 mlocate:x:110:
 ssh:x:111:
 utempter:x:112:
@@ -60,4 +60,4 @@ bluetooth:x:120:
 colord:x:121:
 pulse:x:122:
 pulse-access:x:123:
-ccdcuser:x:1000:
+admin:x:1000:
